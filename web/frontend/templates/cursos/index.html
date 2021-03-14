@@ -1,0 +1,42 @@
+{% extends "base_col_1.html" %}
+{% block title %}Cursos{% endblock %}
+
+{% block pageContent %}
+
+<div class="page-header">
+    <h1>Listado de Cursos</h1>
+    <hr>
+    <a href="/cursos/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Curso</a>
+</div>
+
+{% if cursos | length > 0 %}
+    {% for curso in cursos %}
+    <div class="col-md-4">
+        <div class="panel panel-primary custom-panel-uv">
+            <div class="panel-heading">
+                <h2 class="panel-title">{{curso.nombre_curso}}</h2>
+            </div>
+            <div class="panel-body">
+                <img src="{{ url_for('static', filename='images/curso1.jpg')}}" alt="" class="img-responsive center-block" />
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Horas: {{ curso.horas }} </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Sede: {{ curso.sede }} </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <strong>No cursos found</strong>
+{% endif %}
+
+{% endblock %}

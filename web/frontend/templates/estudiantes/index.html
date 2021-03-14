@@ -1,0 +1,43 @@
+{% extends "base_col_1.html" %}
+{% block title %}Estudiantes{% endblock %}
+
+{% block pageContent %}
+
+
+<div class="page-header">
+    <h1>Listado de Estudiantes</h1>
+    <hr>
+    <a href="/estudiantes/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Estudiante</a>
+</div>
+
+{% if estudiantes | length > 0 %}
+    {% for estudiante in estudiantes %}
+    <div class="col-md-4">
+        <div class="panel panel-primary custom-panel-uv">
+            <div class="panel-heading">
+                <h2 class="panel-title text-center text-uppercase">{{estudiante.nombre_estudiante}}</h2>
+            </div>
+            <div class="panel-body">
+                <img src="{{ url_for('static', filename='images/estudiante1.jpg')}}" alt="" class="img-responsive center-block" />
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Direccion: {{ estudiante.direccion }} </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Sede: {{ estudiante.sede }} </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <strong>No estudiantes found</strong>
+{% endif %}
+
+{% endblock %}

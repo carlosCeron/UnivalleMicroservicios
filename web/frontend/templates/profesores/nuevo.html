@@ -1,0 +1,20 @@
+{% extends "base_col_1.html" %}
+{% from "macros/_macros_form.html" import render_field %}
+{% block title %}Nuevo Profesor{% endblock %}
+
+{% block pageContent %}
+    <h1>Nuevo Profesor</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.primerNombre) }}
+        {{ render_field(form.segundoNombre) }}
+        {{ render_field(form.primerApellido) }}
+        {{ render_field(form.segundoApellido) }}
+        {{ render_field(form.profesion) }}
+        {{ render_field(form.correo) }}
+
+        {{ form.submit(class_="btn btn-primary pull-right") }}
+
+    </form>
+
+{% endblock %}

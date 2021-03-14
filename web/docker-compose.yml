@@ -1,0 +1,111 @@
+version: '3'
+
+volumes:
+  profesor-db-data:
+  estudiantes-db-data:
+  cursos-db-data:
+
+networks:
+  universidad-network:
+    driver: bridge
+
+services:
+  frontend:
+    build:
+      context: .
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app
+    restart: always
+    networks:
+      - universidad-network
+
+  profesores:
+    build:
+      context: ../profesores/
+    ports:
+      - 8081:5000
+    volumes:
+      - ../profesores:/app
+    links:
+      - profesor_db
+    depends_on:
+      - profesor_db
+    hostname: profesores-api
+    container_name: profesores-api
+    restart: always
+    networks:
+      - universidad-network
+
+  profesor_db:
+    image: postgres
+    volumes:
+      - profesor-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=1234
+    restart: always
+    hostname: profesor_db
+    container_name: profesor_db
+    networks:
+      - universidad-network
+
+  estudiantes:
+    build:
+      context: ../estudiantes/
+    ports:
+      - 8082:5000
+    volumes:
+      - ../estudiantes:/app
+    links:
+      - estudiantes_db
+    depends_on:
+      - estudiantes_db
+    hostname: estudiantes-api
+    container_name: estudiantes-api
+    restart: always
+    networks:
+      - universidad-network
+
+  estudiantes_db:
+    image: mysql:5.7.30
+    volumes:
+      - estudiantes-db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=estudiantes
+    restart: always
+    hostname: estudiantes_db
+    container_name: estudiantes_db
+    networks:
+      - universidad-network
+
+  cursos:
+    build:
+      context: ../cursos/
+    ports:
+      - 8083:5000
+    volumes:
+      - ../cursos:/app
+    links:
+      - cursos_db
+    depends_on:
+      - cursos_db
+    hostname: cursos-api
+    container_name: cursos-api
+    restart: always
+    networks:
+      - universidad-network
+
+  cursos_db:
+    image: mysql:5.7.30
+    volumes:
+      - cursos-db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=cursos
+    restart: always
+    hostname: cursos_db
+    container_name: cursos_db
+    networks:
+      - universidad-network
